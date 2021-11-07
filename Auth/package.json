@@ -1,0 +1,17 @@
+{
+  "name": "popug-auth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "popug-auth.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node popug-auth.js"
+  },
+  "author": "Nex Otaku",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "mysql2": "^2.3.3-rc.0",
+    "sequelize": "^6.9.0"
+  }
+}
