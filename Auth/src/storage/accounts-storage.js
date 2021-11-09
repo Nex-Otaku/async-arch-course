@@ -70,6 +70,10 @@ const existsLogin = async (login) => {
     return record !== null;
 }
 
+const getAllAccounts = async () => {
+    return await sequelize.models.Account.findAll();
+}
+
 module.exports = {
     createAccount: createAccount,
     removeAccount: removeAccount,
@@ -77,4 +81,5 @@ module.exports = {
     getAccountByPublicId: getAccountByPublicId,
     getAccountByLogin: getAccountByLogin,
     existsLogin: existsLogin,
+    getAllAccounts: getAllAccounts,
 }

@@ -28,8 +28,8 @@ const removeAccount = async (login) => {
 
 // 3. Пользователь залогинился в систему?
 
-const isLoggedIn = async (token) => {
-    const tokenRecord = await tokenStorage.findToken(token);
+const isLoggedInByToken = async (token) => {
+    const tokenRecord = await tokenStorage.findByToken(token);
 
     if (tokenRecord === null) {
         return {
@@ -38,12 +38,18 @@ const isLoggedIn = async (token) => {
         };
     }
 
-    const account = await accountStorage.getAccountById(token.account_id);
+    const account = await accountStorage.getAccountById(tokenRecord.account_id);
 
     return {
         account_id: account.public_id,
         is_logged_in: true,
     }
+}
+
+const isLoggedInByAccountId = async (accountId) => {
+    const tokenRecord = await tokenStorage.findByAccountId(accountId);
+
+    return tokenRecord !== null;
 }
 
 // 4. Какая роль у пользователя?
@@ -76,6 +82,19 @@ const login = async (login, password) => {
         }
     }
 
+    if (await isLoggedInByAccountId(account.id)) {
+        const tokenRecord = await findTokenByAccountId(account.id);
+
+        if (tokenRecord === null) {
+            throw new Error('Cannot find token');
+        }
+
+        return {
+            status: 'success',
+            token: tokenRecord.token,
+        }
+    }
+
     const tokenRecord = await tokenStorage.createToken(account.id);
 
     await eventbus.postEvent({
@@ -98,11 +117,22 @@ const logout = async (token) => {
     await tokenStorage.removeToken(token);
 }
 
+const getAllAccounts = async () => {
+    return await accountStorage.getAllAccounts();
+}
+
+const findTokenByAccountId = async (accountId) => {
+    return await tokenStorage.findByAccountId(accountId) ?? null;
+}
+
 module.exports = {
     registerAccount: registerAccount,
     removeAccount: removeAccount,
-    isLoggedIn: isLoggedIn,
+    isLoggedInByToken: isLoggedInByToken,
+    isLoggedInByAccountId: isLoggedInByAccountId,
     getAccountRole: getAccountRole,
     login: login,
     logout: logout,
+    getAllAccounts: getAllAccounts,
+    findTokenByAccountId: findTokenByAccountId
 }

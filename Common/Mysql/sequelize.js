@@ -1,6 +1,6 @@
-const { Sequelize } = require('sequelize');
 const environment = require('./../Env/environment');
-const initModels = require(environment.get().ROOT_SERVICE_PATH + '/src/models/init-models');
+const { Sequelize } = environment.require('sequelize');
+const initModels = require(environment.getRootServicePath() + '/src/models/init-models');
 
 const database = environment.get().MYSQL_DB;
 const user = environment.get().MYSQL_USER;
@@ -65,6 +65,10 @@ const getConnection = () => {
 }
 
 const closeConnection = async () => {
+	if (sequelize === null) {
+		return;
+	}
+
 	stop();
 	await sequelize.close();
 	sequelize = null;

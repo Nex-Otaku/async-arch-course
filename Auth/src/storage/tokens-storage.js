@@ -1,10 +1,18 @@
 const sequelize = require('./../../../Common/Mysql/sequelize');
 const publicId = require('./../../../Common/PublicId/public-id');
 
-const findToken = async (token) => {
+const findByToken = async (token) => {
     return await sequelize.models.Token.findOne({
         where: {
             token: token,
+        }
+    });
+}
+
+const findByAccountId = async (accountId) => {
+    return await sequelize.models.Token.findOne({
+        where: {
+            account_id: accountId,
         }
     });
 }
@@ -25,7 +33,8 @@ const removeToken = async (token) => {
 }
 
 module.exports = {
-    findToken: findToken,
+    findByToken: findByToken,
+    findByAccountId: findByAccountId,
     createToken: createToken,
     removeToken: removeToken,
 }

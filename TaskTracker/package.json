@@ -10,8 +10,13 @@
   "author": "Nex Otaku",
   "license": "MIT",
   "dependencies": {
+    "chalk": "^4.1.2",
+    "clear": "^0.1.0",
     "dotenv": "^10.0.0",
+    "figlet": "^1.5.2",
+    "inquirer": "^8.2.0",
     "mysql2": "^2.3.3-rc.0",
+    "press-any-key": "^0.1.1",
     "sequelize": "^6.9.0",
     "uuid": "^8.3.2"
   }
