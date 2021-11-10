@@ -8,8 +8,7 @@ const getRandomElement = (items) => {
 
 const assignTask = async (taskId) => {
     const task = await taskStorage.getTaskById(taskId);
-
-    const accounts = await readAccountStorage.findAllAccounts();
+    const accounts = await readAccountStorage.findAllDeveloperAccounts();
     const randomAccount = getRandomElement(accounts);
     await taskStorage.assignTask(task.id, randomAccount.public_id);
 
@@ -50,7 +49,7 @@ const completeTask = async (taskPublicId) => {
 // 3. Зассайнить все задачи
 
 const assignAllTasks = async () => {
-    const tasks = await taskStorage.findAllTasks();
+    const tasks = await taskStorage.findAllOpenTasks();
 
     if (tasks.length === 0) {
         return;
@@ -83,4 +82,35 @@ const findTodayAssignedTasks = async () => {
 
 const findMostExpensiveTask = async (startDate, finishDate) => {
     // TODO
+}
+
+const getAllTasks = async () => {
+    return await taskStorage.findAllTasks();
+}
+
+const removeTask = async (taskId) => {
+    return await taskStorage.removeTask(taskId);
+}
+
+const findAssignedAccountForTask = async (taskId) => {
+    const task = await taskStorage.getTaskById(taskId);
+
+    if (task.assigned_account_id === null) {
+        return null;
+    }
+
+    return await readAccountStorage.getAccountByPublicId(task.assigned_account_id);
+}
+
+module.exports = {
+    createTask: createTask,
+    completeTask: completeTask,
+    assignAllTasks: assignAllTasks,
+    findTasksAssignedToAccount: findTasksAssignedToAccount,
+    findTodayCompletedTasks: findTodayCompletedTasks,
+    findTodayAssignedTasks: findTodayAssignedTasks,
+    findMostExpensiveTask: findMostExpensiveTask,
+    getAllTasks: getAllTasks,
+    removeTask: removeTask,
+    findAssignedAccountForTask: findAssignedAccountForTask
 }
