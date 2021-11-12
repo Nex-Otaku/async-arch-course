@@ -1,6 +1,6 @@
-const { Sequelize } = require('sequelize');
 const environment = require('./../Env/environment');
-const initModels = require(environment.get().ROOT_SERVICE_PATH + '/src/models/init-models');
+const { Sequelize, Op } = environment.require('sequelize');
+const initModels = require(environment.getRootServicePath() + '/src/models/init-models');
 
 const database = environment.get().MYSQL_DB;
 const user = environment.get().MYSQL_USER;
@@ -65,6 +65,10 @@ const getConnection = () => {
 }
 
 const closeConnection = async () => {
+	if (sequelize === null) {
+		return;
+	}
+
 	stop();
 	await sequelize.close();
 	sequelize = null;
@@ -74,6 +78,21 @@ const nowSql = () => {
 	return Sequelize.literal('NOW()');
 }
 
+/**
+ * https://sequelize.org/master/manual/model-querying-basics.html#applying-where-clauses
+ *
+ where: {
+            topic: topic,
+            id: {
+                [sequelize.op().gt]: eventId
+            }
+        }
+ * @returns {*}
+ */
+const op = () => {
+	return Op;
+}
+
 keepAlive();
 
 module.exports = {
@@ -81,5 +100,6 @@ module.exports = {
 	models: models,
 	keepAlive: keepAlive,
 	close: closeConnection,
-	nowSql: nowSql
+	nowSql: nowSql,
+	op: op,
 }
