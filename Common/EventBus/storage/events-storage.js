@@ -12,7 +12,7 @@ const readEventAfter = async (eventId, topic) => {
         where: {
             topic: topic,
             id: {
-                [sequelize.op.gt]: eventId
+                [sequelize.op().gt]: eventId
             }
         }
     });
@@ -21,7 +21,7 @@ const readEventAfter = async (eventId, topic) => {
         return null;
     }
 
-    return record.event;
+    return {...record.event, ...{id: record.id}};
 }
 
 module.exports = {

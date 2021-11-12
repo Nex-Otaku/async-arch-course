@@ -1,5 +1,5 @@
 const environment = require('./../Env/environment');
-const { Sequelize } = environment.require('sequelize');
+const { Sequelize, Op } = environment.require('sequelize');
 const initModels = require(environment.getRootServicePath() + '/src/models/init-models');
 
 const database = environment.get().MYSQL_DB;
@@ -78,8 +78,19 @@ const nowSql = () => {
 	return Sequelize.literal('NOW()');
 }
 
+/**
+ * https://sequelize.org/master/manual/model-querying-basics.html#applying-where-clauses
+ *
+ where: {
+            topic: topic,
+            id: {
+                [sequelize.op().gt]: eventId
+            }
+        }
+ * @returns {*}
+ */
 const op = () => {
-	return Sequelize.Op;
+	return Op;
 }
 
 keepAlive();

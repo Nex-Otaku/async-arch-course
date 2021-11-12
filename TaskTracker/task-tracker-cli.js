@@ -66,6 +66,11 @@ const assignAllTasks = async () => {
     console.log('Все задачи были заассайнены.');
 }
 
+const processEvent = async () => {
+    await taskTracker.processEvent();
+    console.log('Обработка событий завершена.');
+}
+
 const menu = async () => {
     let running = true;
 
@@ -78,6 +83,7 @@ const menu = async () => {
             'Удалить задачу',
             'Завершить задачу',
             'Заассайнить все задачи',
+            'Обработать событие',
             ui.separator(),
             'Выход',
         ]);
@@ -100,6 +106,10 @@ const menu = async () => {
 
         if (selectedAction === 'Заассайнить все задачи') {
             await assignAllTasks();
+        }
+
+        if (selectedAction === 'Обработать событие') {
+            await processEvent();
         }
 
         if (selectedAction === 'Выход') {

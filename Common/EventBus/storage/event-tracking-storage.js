@@ -1,3 +1,5 @@
+const sequelize = require('./../../../Common/Mysql/sequelize');
+
 const findTrackingRecord = async (topic, consumer) => {
     return await sequelize.models.EventTracking.findOne({
         where: {
@@ -8,7 +10,7 @@ const findTrackingRecord = async (topic, consumer) => {
 }
 
 const getLastConsumedEventId = async (topic, consumer) => {
-    const record = findTrackingRecord(topic, consumer);
+    const record = await findTrackingRecord(topic, consumer);
 
     if (record === null) {
         return 0;
@@ -18,7 +20,7 @@ const getLastConsumedEventId = async (topic, consumer) => {
 }
 
 const markConsumedEvent = async (eventId, topic, consumer) => {
-    const record = findTrackingRecord(topic, consumer);
+    const record = await findTrackingRecord(topic, consumer);
 
     if (record === null) {
         await sequelize.models.EventTracking.create({

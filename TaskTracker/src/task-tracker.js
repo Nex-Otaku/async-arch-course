@@ -2,6 +2,8 @@ const eventbus = require('./../../Common/EventBus/eventbus');
 const taskStorage = require('./storage/tasks-storage');
 const readAccountStorage = require('./storage/read-accounts-storage');
 
+const consumer = 'task-tracker';
+
 const getRandomElement = (items) => {
     return items[Math.floor(Math.random() * items.length)];
 }
@@ -102,6 +104,19 @@ const findAssignedAccountForTask = async (taskId) => {
     return await readAccountStorage.getAccountByPublicId(task.assigned_account_id);
 }
 
+const processEvent = async () => {
+    const event = await eventbus.readEventByTopic('Accounts', consumer);
+
+    if (event === null) {
+        console.log('Нет событий для обработки');
+
+        return;
+    }
+
+    console.log('Получено событие: ' + event.name);
+    await eventbus.markEventAsConsumed(event.id, 'Accounts', consumer);
+}
+
 module.exports = {
     createTask: createTask,
     completeTask: completeTask,
@@ -112,5 +127,6 @@ module.exports = {
     findMostExpensiveTask: findMostExpensiveTask,
     getAllTasks: getAllTasks,
     removeTask: removeTask,
-    findAssignedAccountForTask: findAssignedAccountForTask
+    findAssignedAccountForTask: findAssignedAccountForTask,
+    processEvent: processEvent,
 }
