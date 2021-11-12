@@ -78,6 +78,10 @@ const nowSql = () => {
 	return Sequelize.literal('NOW()');
 }
 
+const op = () => {
+	return Sequelize.Op;
+}
+
 keepAlive();
 
 module.exports = {
@@ -85,5 +89,6 @@ module.exports = {
 	models: models,
 	keepAlive: keepAlive,
 	close: closeConnection,
-	nowSql: nowSql
+	nowSql: nowSql,
+	op: op,
 }
