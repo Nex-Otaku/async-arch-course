@@ -1,4 +1,5 @@
 const eventbus = require('./../../Common/EventBus/eventbus');
+const schemaRegistry = require('./../../Common/SchemaRegistry/schema-registry');
 const taskStorage = require('./storage/tasks-storage');
 const readAccountStorage = require('./storage/read-accounts-storage');
 
@@ -14,14 +15,18 @@ const assignTask = async (taskId) => {
     const randomAccount = getRandomElement(accounts);
     await taskStorage.assignTask(task.id, randomAccount.public_id);
 
-    await eventbus.postEvent({
+    const event = {
         topic: 'Tasks',
         name: 'Task.Assigned',
+        version: 1,
         data: {
             'taskId': task.public_id,
             'assignedAccountId': randomAccount.public_id,
         }
-    })
+    };
+
+    await schemaRegistry.validateEvent(event, event.name, event.version);
+    await eventbus.postEvent(event);
 }
 
 // Операции сервиса:
@@ -31,14 +36,18 @@ const assignTask = async (taskId) => {
 const createTask = async (title) => {
     const task = await taskStorage.createTask(title);
 
-    await eventbus.postEvent({
+    const event = {
         topic: 'Tasks',
         name: 'Task.Created',
+        version: 1,
         data: {
             'taskId': task.public_id,
             'title': task.title,
         }
-    })
+    };
+
+    await schemaRegistry.validateEvent(event, event.name, event.version);
+    await eventbus.postEvent(event);
 
     await assignTask(task.id);
 }
@@ -50,13 +59,17 @@ const completeTask = async (taskPublicId) => {
 
     await taskStorage.markTaskAsCompleted(task.id);
 
-    await eventbus.postEvent({
+    const event = {
         topic: 'Tasks',
         name: 'Task.Completed',
+        version: 1,
         data: {
             'taskId': task.public_id,
         }
-    })
+    };
+
+    await schemaRegistry.validateEvent(event, event.name, event.version);
+    await eventbus.postEvent(event);
 }
 
 // 3. Зассайнить все задачи
