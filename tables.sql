@@ -14,7 +14,6 @@ create table tasks
         primary key,
     public_id varchar(36) null,
     assigned_account_id varchar(36) null,
-    price int not null,
     title text not null,
     status varchar(255) not null
 );

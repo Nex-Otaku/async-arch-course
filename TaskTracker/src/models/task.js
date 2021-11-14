@@ -20,10 +20,6 @@ class Task extends Sequelize.Model {
       type: DataTypes.STRING(36),
       allowNull: true
     },
-    price: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
     title: {
       type: DataTypes.TEXT,
       allowNull: false

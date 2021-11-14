@@ -5,7 +5,6 @@ const createTask = async (title) => {
     return await sequelize.models.Task.create({
         public_id: publicId.generateId(),
         assigned_account_id: null,
-        price: 0,
         status: 'open',
         title: title,
     });

@@ -19,6 +19,7 @@ const assignTask = async (taskId) => {
         name: 'Task.Assigned',
         data: {
             'taskId': task.public_id,
+            'assignedAccountId': randomAccount.public_id,
         }
     })
 }
