@@ -1,0 +1,17 @@
+{
+    "fields": {
+	  "taskId": {
+		"format": "uuid"
+	  },
+	  "title": {
+		"format": "string",
+		"deniedCharacters": [
+		  "[",
+		  "]"
+		]
+	  },
+	  "jiraId": {
+		"format": "string"
+	  }
+	}
+}
