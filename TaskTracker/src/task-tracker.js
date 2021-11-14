@@ -29,6 +29,16 @@ const assignTask = async (taskId) => {
 
 const createTask = async (title) => {
     const task = await taskStorage.createTask(title);
+
+    await eventbus.postEvent({
+        topic: 'Tasks',
+        name: 'Task.Created',
+        data: {
+            'taskId': task.public_id,
+            'title': task.title,
+        }
+    })
+
     await assignTask(task.id);
 }
 
