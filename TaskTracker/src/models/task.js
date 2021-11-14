@@ -24,7 +24,7 @@ class Task extends Sequelize.Model {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    description: {
+    title: {
       type: DataTypes.TEXT,
       allowNull: false
     },

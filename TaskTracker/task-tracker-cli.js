@@ -3,21 +3,21 @@ const ui = require('./../Common/ConsoleUi/console-ui');
 const sequelize = require('./../Common/Mysql/sequelize');
 
 const createTask = async () => {
-    const description = await ui.inputRequired('Описание задачи', 'TODO');
-    await taskTracker.createTask(description);
+    const title = await ui.inputRequired('Описание задачи', 'TODO');
+    await taskTracker.createTask(title);
     console.log('Задача создана.');
 }
 
 const getTaskLabel = async (task) => {
     const account = await taskTracker.findAssignedAccountForTask(task.id);
     const assignedLabel = 'Назначена: ' + ((account !== null) ? account.login : '-');
-    const descriptionLabel = 'Описание: ' + task.description ?? '-';
+    const titleLabel = 'Описание: ' + task.title ?? '-';
     const completedLabel = 'Завершена: ' + ((task.status === 'completed') ? 'Да' : 'Нет');
 
     return 'Задача #' + task.id + '. '
         + completedLabel + '. '
         + assignedLabel + '. '
-        + descriptionLabel;
+        + titleLabel;
 }
 
 const runWithTask = async (callback) => {

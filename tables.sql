@@ -15,7 +15,7 @@ create table tasks
     public_id varchar(36) null,
     assigned_account_id varchar(36) null,
     price int not null,
-    description text not null,
+    title text not null,
     status varchar(255) not null
 );
 

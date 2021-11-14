@@ -27,8 +27,8 @@ const assignTask = async (taskId) => {
 
 // 1. Создать задачу
 
-const createTask = async (description) => {
-    const task = await taskStorage.createTask(description);
+const createTask = async (title) => {
+    const task = await taskStorage.createTask(title);
     await assignTask(task.id);
 }
 
