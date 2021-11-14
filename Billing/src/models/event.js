@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  return Task.init(sequelize, DataTypes);
+  return Event.init(sequelize, DataTypes);
 }
 
-class Task extends Sequelize.Model {
+class Event extends Sequelize.Model {
   static init(sequelize, DataTypes) {
   super.init({
     id: {
@@ -12,25 +12,17 @@ class Task extends Sequelize.Model {
       allowNull: false,
       primaryKey: true
     },
-    public_id: {
-      type: DataTypes.STRING(36),
-      allowNull: true
-    },
-    assigned_account_id: {
-      type: DataTypes.STRING(36),
-      allowNull: true
-    },
-    title: {
-      type: DataTypes.TEXT,
+    topic: {
+      type: DataTypes.STRING(255),
       allowNull: false
     },
-    status: {
-      type: DataTypes.STRING(255),
+    event: {
+      type: DataTypes.JSON,
       allowNull: false
     }
   }, {
     sequelize,
-    tableName: 'tasks',
+    tableName: 'events',
     timestamps: false,
     indexes: [
       {
@@ -43,6 +35,6 @@ class Task extends Sequelize.Model {
       },
     ]
   });
-  return Task;
+  return Event;
   }
 }

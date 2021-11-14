@@ -1,13 +1,12 @@
 const sequelize = require('./../../../Common/Mysql/sequelize');
 const publicId = require('./../../../Common/PublicId/public-id');
 
-const createTask = async (description) => {
+const createTask = async (title) => {
     return await sequelize.models.Task.create({
         public_id: publicId.generateId(),
         assigned_account_id: null,
-        price: 0,
         status: 'open',
-        description: description,
+        title: title,
     });
 }
 

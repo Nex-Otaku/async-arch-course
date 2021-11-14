@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  return Task.init(sequelize, DataTypes);
+  return Account.init(sequelize, DataTypes);
 }
 
-class Task extends Sequelize.Model {
+class Account extends Sequelize.Model {
   static init(sequelize, DataTypes) {
   super.init({
     id: {
@@ -14,23 +14,23 @@ class Task extends Sequelize.Model {
     },
     public_id: {
       type: DataTypes.STRING(36),
-      allowNull: true
-    },
-    assigned_account_id: {
-      type: DataTypes.STRING(36),
-      allowNull: true
-    },
-    title: {
-      type: DataTypes.TEXT,
       allowNull: false
     },
-    status: {
+    role: {
+      type: DataTypes.STRING(255),
+      allowNull: false
+    },
+    login: {
+      type: DataTypes.STRING(255),
+      allowNull: false
+    },
+    password_hash: {
       type: DataTypes.STRING(255),
       allowNull: false
     }
   }, {
     sequelize,
-    tableName: 'tasks',
+    tableName: 'accounts',
     timestamps: false,
     indexes: [
       {
@@ -43,6 +43,6 @@ class Task extends Sequelize.Model {
       },
     ]
   });
-  return Task;
+  return Account;
   }
 }

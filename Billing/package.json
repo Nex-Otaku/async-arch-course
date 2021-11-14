@@ -1,0 +1,24 @@
+{
+  "name": "popug-billing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "popug-billing.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node popug-billing.js"
+  },
+  "author": "Nex Otaku",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "chalk": "^4.1.2",
+    "clear": "^0.1.0",
+    "dotenv": "^10.0.0",
+    "figlet": "^1.5.2",
+    "inquirer": "^8.2.0",
+    "mysql2": "^2.3.3",
+    "press-any-key": "^0.1.1",
+    "sequelize": "^6.9.0",
+    "uuid": "^8.3.2"
+  }
+}

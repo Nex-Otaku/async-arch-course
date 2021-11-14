@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  return Task.init(sequelize, DataTypes);
+  return EventTracking.init(sequelize, DataTypes);
 }
 
-class Task extends Sequelize.Model {
+class EventTracking extends Sequelize.Model {
   static init(sequelize, DataTypes) {
   super.init({
     id: {
@@ -12,25 +12,21 @@ class Task extends Sequelize.Model {
       allowNull: false,
       primaryKey: true
     },
-    public_id: {
-      type: DataTypes.STRING(36),
-      allowNull: true
-    },
-    assigned_account_id: {
-      type: DataTypes.STRING(36),
-      allowNull: true
-    },
-    title: {
-      type: DataTypes.TEXT,
+    consumer: {
+      type: DataTypes.STRING(255),
       allowNull: false
     },
-    status: {
+    topic: {
       type: DataTypes.STRING(255),
+      allowNull: false
+    },
+    last_consumed_event_id: {
+      type: DataTypes.INTEGER,
       allowNull: false
     }
   }, {
     sequelize,
-    tableName: 'tasks',
+    tableName: 'event_tracking',
     timestamps: false,
     indexes: [
       {
@@ -43,6 +39,6 @@ class Task extends Sequelize.Model {
       },
     ]
   });
-  return Task;
+  return EventTracking;
   }
 }

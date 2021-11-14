@@ -19,6 +19,7 @@ const assignTask = async (taskId) => {
         name: 'Task.Assigned',
         data: {
             'taskId': task.public_id,
+            'assignedAccountId': randomAccount.public_id,
         }
     })
 }
@@ -27,8 +28,18 @@ const assignTask = async (taskId) => {
 
 // 1. Создать задачу
 
-const createTask = async (description) => {
-    const task = await taskStorage.createTask(description);
+const createTask = async (title) => {
+    const task = await taskStorage.createTask(title);
+
+    await eventbus.postEvent({
+        topic: 'Tasks',
+        name: 'Task.Created',
+        data: {
+            'taskId': task.public_id,
+            'title': task.title,
+        }
+    })
+
     await assignTask(task.id);
 }
 
