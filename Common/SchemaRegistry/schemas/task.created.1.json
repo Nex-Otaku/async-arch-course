@@ -1,0 +1,10 @@
+{
+    "fields": {
+	  "taskId": {
+		"format": "uuid"
+	  },
+	  "title": {
+		"format": "string"
+	  }
+	}
+}

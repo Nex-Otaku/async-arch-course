@@ -1,4 +1,5 @@
 const eventbus = require('./../../Common/EventBus/eventbus');
+const schemaRegistry = require('./../../Common/SchemaRegistry/schema-registry');
 const accountStorage = require('./storage/accounts-storage');
 const tokenStorage = require('./storage/tokens-storage');
 const bcrypt = require('bcrypt');
@@ -97,13 +98,17 @@ const login = async (login, password) => {
 
     const tokenRecord = await tokenStorage.createToken(account.id);
 
-    await eventbus.postEvent({
+    const event = {
         topic: 'Accounts',
         name: 'Account.Logined',
+        version: 1,
         data: {
             'accountId': account.public_id,
         }
-    })
+    };
+
+    await schemaRegistry.validateEvent(event, event.name, event.version);
+    await eventbus.postEvent(event);
 
     return {
         status: 'success',
